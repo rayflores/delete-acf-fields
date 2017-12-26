@@ -18,40 +18,24 @@ function delete_acf_fields_hook(){
 echo '<h3>All Posts/Meta</h3>';
 $posts = get_posts(
 			array(
+				'post_type' => array('page','post'),
 				'posts_per_page' => -1,
-				'post_status'	 => 'publish',
+				'post_status'	 => 'any',
 			)
 		);
 
 	foreach ($posts as $post){
 		$getPostCustom=get_post_custom($post->ID); // Get all the data 
-		delete_post_meta($post->ID,'be_disable_leaving_page');
-		delete_post_meta($post->ID,'_'.'be_disable_leaving_page');
-		delete_post_meta($post->ID,'be_hidden');
-		delete_post_meta($post->ID,'_'.'be_hidden');
-		delete_post_meta($post->ID,'be_testimonial');
-		delete_post_meta($post->ID,'_'.'be_testimonial');
-		delete_post_meta($post->ID,'be_testimonials');
-		delete_post_meta($post->ID,'_'.'be_testimonials');
-		delete_post_meta($post->ID,'be_cta_title');
-		delete_post_meta($post->ID,'_'.'be_cta_title');
-		delete_post_meta($post->ID,'be_cta_icon');
-		delete_post_meta($post->ID,'_'.'be_cta_icon');
-		delete_post_meta($post->ID,'be_cta_content');
-		delete_post_meta($post->ID,'_'.'be_cta_content');		
-		delete_post_meta($post->ID,'be_cta_button_text');
-		delete_post_meta($post->ID,'_'.'be_cta_button_text');		
-		delete_post_meta($post->ID,'be_cta_button_link');
-		delete_post_meta($post->ID,'_'.'be_cta_button_link');
 
 		foreach($getPostCustom as $name=>$value) {
 			$exp_name = explode('_',$name);
-			if ( substr($name, 1, 3) === 'be_' ){
+			if ( ($exp_name[0] === 'be') || ($exp_name[1] === 'be' ) ){
 				echo "<strong>".$name."</strong>"."  =>  ";
 
 				foreach($value as $nameAr=>$valueAr) {
 						echo $nameAr."  =>  ".$valueAr;
 						echo "<button>delete?</button><br />";
+						delete_post_meta($post->ID,$name);
 				}
 			} 
 		}
