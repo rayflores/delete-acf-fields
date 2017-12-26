@@ -30,11 +30,7 @@ $posts = get_posts(
 		foreach($getPostCustom as $name=>$value) {
 			$exp_name = explode('_',$name);
 			if ( ($exp_name[0] === 'be') || ($exp_name[1] === 'be' ) ){
-				echo "<strong>".$name."</strong>"."  =>  ";
-
 				foreach($value as $nameAr=>$valueAr) {
-						echo $nameAr."  =>  ".$valueAr;
-						echo "<button>delete?</button><br />";
 						delete_post_meta($post->ID,$name);
 				}
 			} 
